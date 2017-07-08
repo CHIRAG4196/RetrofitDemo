@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.example.chirag.retrofitdemo.R;
 import com.example.chirag.retrofitdemo.model.Song;
@@ -22,10 +23,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
     private Context context;
     private ArrayList<Song> songArrayList;
+    private View.OnClickListener onClickListener;
 
-    public SongAdapter(Context context, ArrayList<Song> songArrayList) {
+    public SongAdapter(Context context, ArrayList<Song> songArrayList, View.OnClickListener onClickListener) {
         this.context = context;
         this.songArrayList = songArrayList;
+        this.onClickListener = onClickListener;
     }
 
     @Override
@@ -41,6 +44,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
         holder.mTvCreatedAt.setText(song.getCreatedAt());
         holder.mTvUpdatedAt.setText(song.getUpdatedAt());
         Picasso.with(context).load(song.getImages()).into(holder.mIvSongImage);
+        holder.mRlListSong.setTag(position);
     }
 
     @Override
@@ -51,6 +55,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
         private AppCompatTextView mTvSongPath,mTvCreatedAt,mTvUpdatedAt;
         private CircleImageView mIvSongImage;
+        private RelativeLayout mRlListSong;
         public ViewHolder(View itemView) {
             super(itemView);
 
@@ -58,6 +63,8 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
             mTvCreatedAt = (AppCompatTextView) itemView.findViewById(R.id.tv_created_at);
             mTvUpdatedAt = (AppCompatTextView) itemView.findViewById(R.id.tv_updated_at);
             mIvSongImage = (CircleImageView) itemView.findViewById(R.id.iv_song_image);
+            mRlListSong = (RelativeLayout) itemView.findViewById(R.id.act_list_song_rl);
+            mRlListSong.setOnClickListener(onClickListener);
         }
     }
 }
